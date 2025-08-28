@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CLUSTER_NAME="Kind-Local-K8S"
+CLUSTER_NAME="kind-local-k8s"
 
 kind create cluster --name $CLUSTER_NAME --config=- <<EOF
 kind: Cluster

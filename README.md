@@ -60,7 +60,7 @@ This script will verify prerequisites, create the Kind cluster, and configure yo
 
 ### 1. Create namespaces 
 ```bash 
-kubectl apply -f namespaces.yaml
+kubectl apply -f namespace/namespace.yaml
 ```
 
 ### 2. Deploy Kafka Cluster and Its Exporter 
