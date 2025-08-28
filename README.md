@@ -25,7 +25,7 @@ This repo contains a script `setup-kind.sh` that will:
 
 ```
 kind-local-k8s-demo/
-├── setup-kind.sh                   # Script to check env + create Kind cluster (1 cp + 2 workers)
+├── setup-k8s-cluster.sh            # Script to check env + create Kind cluster (1 cp + 2 workers)
 ├── namespace/
 │   └── namespaces.yaml             # Namespace definitions (kafka, monitoring, etc.)
 ├── kafka/
