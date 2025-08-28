@@ -1,0 +1,22 @@
+# kind-config.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      # Kafka NodePort
+      - containerPort: 30092   # NodePort of Kafka
+        hostPort: 30092
+        protocol: TCP
+      # Kafka Exporter NodePort
+      - containerPort: 9308
+        hostPort: 9308
+        protocol: TCP
+      # Prometheus NodePort
+      - containerPort: 31000
+        hostPort: 31000
+        protocol: TCP
+      # Grafana NodePort
+      - containerPort: 32000
+        hostPort: 32000
+        protocol: TCP

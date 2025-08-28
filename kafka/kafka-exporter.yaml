@@ -20,6 +20,13 @@ spec:
           - '--kafka.server=kafka-0.kafka-headless.kafka.svc.cluster.local:9092'
         ports:
         - containerPort: 9308
+      resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
 ---
 apiVersion: v1
 kind: Service
@@ -33,3 +40,4 @@ spec:
   - name: metrics
     port: 9308
     targetPort: 9308
+    nodePort: 9308

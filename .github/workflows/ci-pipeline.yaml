@@ -1,0 +1,45 @@
+name: CI - Kind Local K8S Demo
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  kind-cluster:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Install Kind + Kubectl
+        run: |
+          brew install kind kubectl
+
+      - name: Create Kind Cluster
+        run: |
+          kind create cluster --name ci-demo --config ./configs/kind-config.yaml
+          kubectl cluster-info
+
+      - name: Deploy Kafka and Monitoring
+        run: |
+          kubectl apply -f namespace/namespace.yaml
+          kubectl apply -f kafka/kafka-cluster.yaml
+          kubectl apply -f kafka/kafka-exporter.yaml
+          kubectl apply -f monitoring/prometheus-deployment.yaml
+          kubectl apply -f monitoring/prometheus-service.yaml
+          kubectl apply -f monitoring/grafana-deployment.yaml
+          kubectl apply -f monitoring/grafana-service.yaml
+
+      - name: Verify Kafka
+        run: bash tests/verify-kafka.sh
+
+      - name: Verify Prometheus
+        run: bash tests/verify-prometheus.sh
+
+      - name: Verify Grafana
+        run: bash tests/verify-grafana.sh
