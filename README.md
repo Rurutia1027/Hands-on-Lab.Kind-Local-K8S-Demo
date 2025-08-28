@@ -88,7 +88,46 @@ kubectl get svc -n monitoring
 
 > This allows you to see Kafka cluster metrics visualized Grafana immediately! 
 
-## Notes
+## Local Kind Kubernetes Cluster Access Map
+
+| Component       | Pod Name / Selector      | ClusterIP Service Port | NodePort | Localhost (macOS) | Notes                                |
+|-----------------|------------------------|----------------------|----------|-----------------|--------------------------------------|
+| Kafka           | kafka-0 / app: kafka    | 9092                 | 30092    | localhost:30092 | Single-node Kafka KRaft mode         |
+| Kafka Exporter  | kafka-exporter / app: kafka-exporter | 9308  | 9308     | localhost:9308  | Exposes Kafka metrics for Prometheus |
+| Prometheus      | prometheus / app: prometheus | 9090            | 30900    | localhost:30900 | Prometheus web UI + metrics scrape   |
+| Grafana         | grafana / app: grafana  | 3000                 | 32000    | localhost:32000 | Grafana web UI                        |
+
+## Accessing Services from macOS/Linux 
+
+If you did **not map NodePorts in `kind-config.yaml`** during cluster creation, you can still access the services using `kubectl port-forward`. Examples: 
+
+```bash 
+# Kafka Exporter
+kubectl port-forward svc/kafka-exporter 9308:9308 -n kafka
+
+# Prometheus
+kubectl port-forward svc/prometheus 9090:9090 -n monitoring
+
+# Grafana
+kubectl port-forward svc/grafana 3000:3000 -n monitoring
+```
+
+**Note: port-forward binds the service to localhost temporarily. NodePort mapping in Kind is preferred for continuous localhost access.**
+
+
+### Notes
+- **ClusterIP Service Port** -> Internal Kubernetes port, used by Pods to talk to each other
+- **NodePort** -> Exposes Services to the Node (Kind container)
+- **Localhost** -> Maps **NodePort** to macOS host via `extraPortMappings` in `kind-config.yaml`
+- Verify those via commands below: 
+```bash 
+kubectl get pods -n kafka
+kubectl get svc -n kafka
+kubectl get pods -n monitoring
+kubectl get svc -n monitoring
+```
+
+## Tips 
 - Prometheus is configured to scrape Kafka Exporter metrics.
 - You can create Grafana dashboards to visualize Kafka cluster metrics.
 - All mainfests are designed to run **locally on Kind**, ideal for CKA practice or testing GitOps pipelines. 
@@ -98,5 +137,13 @@ kubectl get svc -n monitoring
 - Extend Prometheus scrape configs 
 - Add Ingress for more services 
 - Use GitOps workflows with **ArgoCD** or **FluxCD** to sync manifests 
+
+
+## Cleanup 
+To delete the local Kind setup K8S cluster:
+
+```bash 
+kind delete cluster --name kind-local-k8s
+```
 
 **Enjoy spinning up a complete monitoring demo in your local Kind Kubernetes cluster with minimal effort!**
