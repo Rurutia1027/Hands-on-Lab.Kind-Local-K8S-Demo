@@ -21,6 +21,26 @@ This repo contains a script `setup-kind.sh` that will:
 - Apply namespaces and prepare the cluster for demo deployments
 
 
+## Repository Structure 
+
+```
+kind-local-k8s-demo/
+├── setup-kind.sh                 # Script to check env + create Kind cluster (1 cp + 2 workers)
+├── kafka/
+│   ├── namespaces.yaml            # Namespace definitions
+│   ├── kafka-cluster.yaml         # Kafka cluster manifests
+│   └── kafka-exporter.yaml        # Kafka exporter deployment
+├── monitoring/
+│   ├── prometheus-deployment.yaml # Prometheus deployment
+│   ├── prometheus-service.yaml    # Prometheus service
+│   ├── grafana-deployment.yaml    # Grafana deployment
+│   └── grafana-service.yaml       # Grafana service
+├── .github/
+│   └── workflows/
+│       └── ci.yaml                # GitHub Actions workflow for macOS Kind validation
+└── README.md
+```
+
 ## Quick Start 
 
 ### 0. Environment Check and Cluster Set up
