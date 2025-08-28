@@ -34,18 +34,24 @@ jobs:
 
       - name: Create Kind Cluster
         run: |
-          kind create cluster --name ci-demo --config ./configs/kind-config.yaml
+          kind create cluster --name ci-pipeline --config ./configs/kind-config.yaml
           kubectl cluster-info
+
+      - name: Create Namespaces for kafka and montoring
+        run: |
+         kubectl apply -f namespace/namespace.yaml
+         kubectl wait --for=condition=Established namespace/kafka --timeout=30s
+         kubectl wait --for=condition=Established namespace/monitoring --timeout=30s
 
       - name: Deploy Kafka and Monitoring
         run: |
-          kubectl apply -f namespace/namespace.yaml
           kubectl apply -f kafka/kafka-cluster.yaml
           kubectl apply -f kafka/kafka-exporter.yaml
           kubectl apply -f monitoring/prometheus-deployment.yaml
           kubectl apply -f monitoring/prometheus-service.yaml
           kubectl apply -f monitoring/grafana-deployment.yaml
           kubectl apply -f monitoring/grafana-service.yaml
+
       - name: Wait for pods to be ready
         run: |
           for i in {1..30}; do
