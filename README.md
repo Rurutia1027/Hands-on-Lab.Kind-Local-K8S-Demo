@@ -25,19 +25,25 @@ This repo contains a script `setup-kind.sh` that will:
 
 ```
 kind-local-k8s-demo/
-├── setup-kind.sh                 # Script to check env + create Kind cluster (1 cp + 2 workers)
+├── setup-kind.sh                   # Script to check env + create Kind cluster (1 cp + 2 workers)
+├── namespace/
+│   └── namespaces.yaml             # Namespace definitions (kafka, monitoring, etc.)
 ├── kafka/
-│   ├── namespaces.yaml            # Namespace definitions
-│   ├── kafka-cluster.yaml         # Kafka cluster manifests
-│   └── kafka-exporter.yaml        # Kafka exporter deployment
+│   ├── kafka-cluster.yaml          # Kafka cluster manifests
+│   └── kafka-exporter.yaml         # Kafka exporter deployment
 ├── monitoring/
-│   ├── prometheus-deployment.yaml # Prometheus deployment
-│   ├── prometheus-service.yaml    # Prometheus service
-│   ├── grafana-deployment.yaml    # Grafana deployment
-│   └── grafana-service.yaml       # Grafana service
+│   ├── prometheus-deployment.yaml  # Prometheus deployment
+│   ├── prometheus-service.yaml     # Prometheus service
+│   ├── grafana-deployment.yaml     # Grafana deployment
+│   └── grafana-service.yaml        # Grafana service
+├── tests/
+│   ├── verify-kafka.sh             # Verify Kafka cluster pods + services
+│   ├── verify-prometheus.sh        # Verify Prometheus pods + services
+│   └── verify-grafana.sh           # Verify Grafana pods + services
 ├── .github/
+│   ├── kind-config.yaml            # Shared Kind cluster config (1 cp + 2 workers)
 │   └── workflows/
-│       └── ci.yaml                # GitHub Actions workflow for macOS Kind validation
+│       └── ci.yaml                 # GitHub Actions workflow for macOS Kind validation
 └── README.md
 ```
 
