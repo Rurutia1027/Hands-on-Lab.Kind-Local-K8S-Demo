@@ -46,6 +46,21 @@ jobs:
           kubectl apply -f monitoring/prometheus-service.yaml
           kubectl apply -f monitoring/grafana-deployment.yaml
           kubectl apply -f monitoring/grafana-service.yaml
+      - name: Wait for pods to be ready
+        run: |
+          for i in {1..30}; do
+            NOTREADY=$(kubectl get pods -n kafka -o jsonpath='{.items[?(@.status.phase!="Running")].metadata.name}')
+            NOTREADY_MON=$(kubectl get pods -n monitoring -o jsonpath='{.items[?(@.status.phase!="Running")].metadata.name}')
+            if [[ -z "$NOTREADY" && -z "$NOTREADY_MON" ]]; then
+              echo "All pods are running!"
+              exit 0
+            fi
+            echo "Waiting for pods to be ready..."
+            sleep 10
+          done
+          echo "Timeout waiting for pods!"
+          kubectl get pods -A
+          exit 1
 
       - name: Verify Kafka
         run: bash tests/verify-kafka.sh
