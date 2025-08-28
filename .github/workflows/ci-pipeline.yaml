@@ -48,7 +48,7 @@ jobs:
           kubectl apply -f kafka/kafka-cluster.yaml
           kubectl apply -f kafka/kafka-exporter.yaml
 
-          kubectl wait --for=condition=Available deployment/kafka -n kafka --timeout=180s
+          kubectl wait --for=condition=Available statefulset/kafka -n kafka --timeout=180s
           kubectl wait --for=condition=Available deployment/kafka-exporter -n kafka --timeout=180s
           
           # Prometheus & Grafana 
