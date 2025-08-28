@@ -40,4 +40,3 @@ spec:
   - name: metrics
     port: 9308
     targetPort: 9308
-    nodePort: 9308
