@@ -46,7 +46,9 @@ spec:
             cpu: "500m"
 
 --- 
-# service 
+
+# service for expose forward port 
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -60,3 +62,24 @@ spec:
     - port: 9092
       targetPort: 9092
       nodePort: 30092
+
+---
+
+# service for kafka exporter communcating 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-headless
+  namespace: kafka
+spec:
+  clusterIP: None
+  selector:
+    app: kafka
+  ports:
+    - name: broker
+      port: 9092
+      targetPort: 9092
+    - name: controller
+      port: 9093
+      targetPort: 9093      
