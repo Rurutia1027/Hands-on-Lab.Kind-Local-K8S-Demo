@@ -1,4 +1,4 @@
-# Hands-on-Lab: Kind-Local-K8S-Demo | [![CI - Kind Local K8S Demo](https://github.com/Rurutia1027/Hands-on-Lab.Kind-Local-K8S-Demo/actions/workflows/ci-pipeline.yaml/badge.svg)](https://github.com/Rurutia1027/Hands-on-Lab.Kind-Local-K8S-Demo/actions/workflows/ci-pipeline.yaml)
+# Hands-on-Lab: Portable Kubernetes Cluster | [![CI - Kind Local K8S Demo](https://github.com/Rurutia1027/Hands-on-Lab.Kind-Local-K8S-Demo/actions/workflows/ci-pipeline.yaml/badge.svg)](https://github.com/Rurutia1027/Hands-on-Lab.Kind-Local-K8S-Demo/actions/workflows/ci-pipeline.yaml)
 
 This repository provides a **ready-to-run local Kubernetes lab** using Kind, including: 
 - Kafka cluster 
